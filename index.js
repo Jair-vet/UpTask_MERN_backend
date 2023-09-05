@@ -5,6 +5,7 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 
 
 const app = express()
+app.use(express.json()) // para procesar la información JSON
 
 dotenv.config()
 
