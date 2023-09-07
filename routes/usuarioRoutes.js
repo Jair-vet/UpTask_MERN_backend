@@ -1,10 +1,11 @@
 import express from 'express'
+import { registrar } from '../controllers/usuarioController.js'
 
 const router = express.Router()
 
+// Autenticación, Registo y Confirmación de Usuarios
 
-router.get('/', (req, res) => {
-    res.send('Desde API/ Usuarios')
-})
+router.post('/', registrar) // Cear un nuevo usuario
+
 
 export default router
