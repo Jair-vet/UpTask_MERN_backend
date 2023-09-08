@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 
-const usuaioSchema = mongoose.Schema(
+const usuarioSchema = mongoose.Schema(
     {
         nombre: {
             type: String,
@@ -32,15 +32,19 @@ const usuaioSchema = mongoose.Schema(
     }
 )
 
-usuaioSchema.pre('save', async function(next){
-    
-    if(!this.isModified('password')){
-        next()
+//hashear passwords
+usuarioSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+      next();
     }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+});
 
-    const salt = await bcrypt.genSalt(10)   // Almacenar en el password
-    this.password = await bcrypt.hash(this.password, salt)   // Hasheando el password
-}) 
+usuarioSchema.methods.comprobarPassword = async function (passwordFormulario) {
+return await bcrypt.compare(passwordFormulario, this.password);
+};
+  
 
-const Usuario = mongoose.model("Usuario", usuaioSchema)
-export default Usuario
+const Usuario = mongoose.model("Usuario", usuarioSchema);
+export default Usuario;

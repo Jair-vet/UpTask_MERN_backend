@@ -4,13 +4,13 @@ import generarId from '../helpers/generarId.js'
 
 const registrar = async (req, res) => {
     // Evitar registros duplicados
-    const { email } = req.body
-    const existeUsuario = await Usuario.findOne({ email })
+    const { email } = req.body;
+    const existeUsuario = await Usuario.findOne({ email });
 
     // Si existe mandamos el error
-    if (existeUsuario){
-        const error = new Error('El Usuario Ya Esta Registrado')
-        return res.status(400).json({ msg: error.message })
+    if (existeUsuario) {
+        const error = new Error("Usuario ya esta Registrado");
+        return res.status(400).json({ msg: error.message });
     }
 
     try {
@@ -26,25 +26,29 @@ const registrar = async (req, res) => {
 }
 
 const autenticar = async(req, res) =>   {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     // Comprobar si el usuario existe
     const usuario = await Usuario.findOne({email})
-    // Si el usuario no existe
-    if(!usuario){
-        const error = new Error('El usuario no existe')
-        return res.status(404).json({ msg: error.message })
+    if (!usuario) {
+        const error = new Error("El Usuario no existe");
+        return res.status(404).json({ msg: error.message });
     }
 
     
     // Comprobar si el usuario esta autenticado
-    if(!usuario.confirmado){
-        const error = new Error('Tu Cuenta no ha sido Confirmada')
-        return res.status(404).json({ msg: error.message })
+    if (!usuario.confirmado) {
+        const error = new Error("Tu Cuenta no ha sido confirmada");
+        return res.status(403).json({ msg: error.message });
     }
 
 
     // Comprobar su  password
+    if(await usuario.comprobarPassword(password)){
+        console.log('Es Correcto');
+    }else {
+        console.log('Es Incorrecto');
+    }
 
 
 }
