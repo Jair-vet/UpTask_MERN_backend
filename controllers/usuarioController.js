@@ -57,6 +57,28 @@ const autenticar = async(req, res) =>   {
         return res.status(404).json({ msg: error.message });
     }
 
+}
+
+
+const confirmar = async(req, res) =>   {
+    const { token } = req.params;
+
+    const usuarioConfirmar = await Usuario.findOne({ token }); // Encontrar el token de la DB
+    // Confirmar si Existe el token
+    if (!usuarioConfirmar) {
+        const error = new Error("Token no válido");
+        return res.status(403).json({ msg: error.message });
+    }
+
+    try {
+        usuarioConfirmar.confirmado = true;
+        usuarioConfirmar.token = "";  // Eliminar el Token, porque es solo de un uso
+        await usuarioConfirmar.save();
+        res.json({ msg: "Usuario Confirmado Correctamente" });
+
+      } catch (error) {
+        console.log(error);
+    }
 
 }
 
@@ -64,4 +86,5 @@ const autenticar = async(req, res) =>   {
 export {
     registrar,
     autenticar,
+    confirmar
 }
