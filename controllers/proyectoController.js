@@ -1,9 +1,23 @@
+import Proyecto from "../models/Proyecto.js";
+import Usuario from "../models/Usuario.js";
+
 
 const obtenerProyectos = async (req, res) => {
-    
+
 }
 
 const nuevoProyecto = async (req, res) => {
+    
+    const proyecto = new Proyecto(req.body)
+    proyecto.creador = req.usuario._id
+    
+    try {
+        const proyectoAlmacenado = await proyecto.save()
+        res.json(proyectoAlmacenado)
+    
+    } catch (error) {
+        console.log(error);
+    }
 
 }
 
@@ -38,7 +52,7 @@ export {
     obtenerProyecto,
     editarProyecto,
     eliminarProyecto,
-    buscarColaborador,
+    // buscarColaborador,
     agregarColaborador,
     eliminarColaborador,
     obtenerTareas,
