@@ -41,4 +41,5 @@ export {
     buscarColaborador,
     agregarColaborador,
     eliminarColaborador,
+    obtenerTareas,
 }
