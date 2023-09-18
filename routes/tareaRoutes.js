@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/",checkAuth,  agregarTarea);
 router
   .route("/:id")
-  .get( obtenerTarea)
+  .get(checkAuth, obtenerTarea)
   .put( actualizarTarea)
   .delete( eliminarTarea);
 
