@@ -3,6 +3,10 @@ import Usuario from "../models/Usuario.js";
 
 
 const obtenerProyectos = async (req, res) => {
+     // trae todos los proyectos en la DB que creo el usuario
+    const proyectos = await Proyecto.find().where('creador').equals(req.usuario)
+
+    res.json(proyectos)
 
 }
 
