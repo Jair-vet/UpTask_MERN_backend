@@ -1,4 +1,5 @@
 import Proyecto from "../models/Proyecto.js";
+import Tarea from "../models/Tarea.js";
 import Usuario from "../models/Usuario.js";
 
 
@@ -41,7 +42,14 @@ const obtenerProyecto = async (req, res) => {
         return res.status(401).json({ msg: error.message });
     }
 
-    res.json(proyecto);
+
+    // Obtener las tareas del Proyecto
+    const tareas = await Tarea.find().where('proyecto').equals(proyecto._id)
+
+    res.json({
+        proyecto,
+        tareas
+    });
     
 }
 
@@ -109,9 +117,6 @@ const eliminarColaborador = async (req, res) => {
 
 }
 
-const obtenerTareas = async (req, res) => {
-
-}
 
 
 export {
@@ -123,5 +128,4 @@ export {
     // buscarColaborador,
     agregarColaborador,
     eliminarColaborador,
-    obtenerTareas,
 }
