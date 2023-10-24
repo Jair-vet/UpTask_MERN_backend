@@ -12,18 +12,20 @@ const agregarTarea = async (req, res) => {
       return res.status(404).json({ msg: error.message });
     }
   
-    if (existeProyecto.creador.toString() !== req.usuario._id.toString()) {
+    if (!existeProyecto.creador.equals(req.usuario._id) ){
       const error = new Error("No tienes los permisos para añadir tareas");
       return res.status(403).json({ msg: error.message });
     }
   
     try {
       const tareaAlmacenada = await Tarea.create(req.body);
-    //   await existeProyecto.save();
-    // Alamcenamos el Id en el Proyecto
-    existeProyecto.tareas.push(tareaAlmacenada._id)
-    await existeProyecto.save
+
+      // Alamcenamos el Id en el Proyecto
+      existeProyecto.tareas.push(tareaAlmacenada._id)
+      await existeProyecto.save
+
       res.json(tareaAlmacenada);
+      
     } catch (error) {
       console.log(error);
     }
