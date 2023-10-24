@@ -3,33 +3,37 @@ import Tarea from "../models/Tarea.js";
 
 
 const agregarTarea = async (req, res) => {
-    const { proyecto } = req.body;
+  const { proyecto } = req.body;
+
+  // Validar que el proyecto si exista
+  const existeProyecto = await Proyecto.findById(proyecto);
   
-    const existeProyecto = await Proyecto.findById(proyecto);
-  
-    if (!existeProyecto) {
-      const error = new Error("El Proyecto no existe");
-      return res.status(404).json({ msg: error.message });
-    }
-  
-    if (!existeProyecto.creador.equals(req.usuario._id) ){
-      const error = new Error("No tienes los permisos para añadir tareas");
-      return res.status(403).json({ msg: error.message });
-    }
-  
-    try {
+  if (!existeProyecto) {
+      const error = new Error('El proyecto no existe');
+      return res.status(404).json({
+          msg: error.message
+      });
+  }
+
+  // Validar que la persona que esta dando de alta sea la creadora del proyecto
+  if (existeProyecto.creador.toString() !== req.usuario._id.toString()) {
+      const error = new Error('No tienes los permisos adecuados para añadir tareas');
+      return res.status(403).json({
+          msg: error.message
+      });
+  }
+
+  try {
       const tareaAlmacenada = await Tarea.create(req.body);
-
-      // Alamcenamos el Id en el Proyecto
-      existeProyecto.tareas.push(tareaAlmacenada._id)
-      await existeProyecto.save
-
+      // Almacenar el id en el proyecto
+      // el push ira agregando la tareas al arreglo en la posición final
+      existeProyecto.tareas.push(tareaAlmacenada._id);
+      await existeProyecto.save();
       res.json(tareaAlmacenada);
-      
-    } catch (error) {
+  } catch (error) {
       console.log(error);
-    }
-};
+  }
+}
 
 
 const obtenerTarea = async (req, res) => {
