@@ -101,7 +101,7 @@ const eliminarProyecto = async (req, res) => {
 
 const buscarColaborador = async (req, res) => {
     const { email } = req.body;
-    const usuario = await Usuario.findOne({ email })/* .select("-confirmado -createdAt -password -token -updatedAt -__v "); */
+    const usuario = await Usuario.findOne({ email }).select("-confirmado -createdAt -password -token -updatedAt -__v ");
 
     if (!usuario) {
         const error = new Error("Usuario no encontrado");
