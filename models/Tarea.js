@@ -23,7 +23,7 @@ const tareaSchema = mongoose.Schema({
     prioridad: {
         type: String,
         required: true,
-        enum: ['Baja', 'Media', 'Alta'] // el enum va a permitir unicamente los valores que este en este arreglo
+        enum: ['Low', 'Medium', 'High'] // el enum va a permitir unicamente los valores que este en este arreglo
     },
     proyecto: {
         type: mongoose.Schema.Types.ObjectId, // cada tarea tiene una relacion con un proyecto

@@ -11,7 +11,7 @@ const registrar = async (req, res) => {
 
     // Si existe mandamos el error
     if (existeUsuario) {
-        const error = new Error("Usuario ya esta Registrado");
+        const error = new Error("User is already registered");
         return res.status(400).json({ msg: error.message });
     }
 
@@ -28,7 +28,7 @@ const registrar = async (req, res) => {
         })
 
 
-        res.json({msg: 'Usuario Creado Correctamente, Revisa tu Email para Confirmar tu Cuenta'})
+        res.json({msg: 'User Successfully Created, Check Your Email to Confirm Your Account'})
     } catch (error) {
         console.log(error);
     }
@@ -41,14 +41,14 @@ const autenticar = async(req, res) =>   {
     // Comprobar si el usuario existe
     const usuario = await Usuario.findOne({email})
     if (!usuario) {
-        const error = new Error("El Usuario no existe");
+        const error = new Error("User does not exist");
         return res.status(404).json({ msg: error.message });
     }
 
     
     // Comprobar si el usuario esta autenticado
     if (!usuario.confirmado) {
-        const error = new Error("Tu Cuenta no ha sido confirmada");
+        const error = new Error("Your account has not been confirmed");
         return res.status(403).json({ msg: error.message });
     }
 
@@ -62,7 +62,7 @@ const autenticar = async(req, res) =>   {
             token: generarJWT(usuario._id)
         })
     }else {
-        const error = new Error("El Password es Incorrecto");
+        const error = new Error("Password incorrect");
         return res.status(404).json({ msg: error.message });
     }
 
@@ -75,7 +75,7 @@ const confirmar = async(req, res) =>   {
     const usuarioConfirmar = await Usuario.findOne({ token }); // Encontrar el token de la DB
     // Confirmar si Existe el token
     if (!usuarioConfirmar) {
-        const error = new Error("Token no válido");
+        const error = new Error("Invalid token");
         return res.status(403).json({ msg: error.message });
     }
 
@@ -83,7 +83,7 @@ const confirmar = async(req, res) =>   {
         usuarioConfirmar.confirmado = true;
         usuarioConfirmar.token = "";  // Eliminar el Token, porque es solo de un uso
         await usuarioConfirmar.save();
-        res.json({ msg: "Usuario Confirmado Correctamente" });
+        res.json({ msg: "Successfully Confirmed User" });
 
       } catch (error) {
         console.log(error);
@@ -96,7 +96,7 @@ const  olvidePassword = async( req, res) => {
     // Comprobar si el usuario existe
     const usuario = await Usuario.findOne({ email }); 
     if (!usuario) {
-      const error = new Error("El Usuario no existe");
+      const error = new Error("User does not exist");
       return res.status(404).json({ msg: error.message });
     }
     
@@ -112,7 +112,7 @@ const  olvidePassword = async( req, res) => {
             token: usuario.token,
         });
     
-        res.json({ msg: "Hemos enviado un email con las instrucciones" });
+        res.json({ msg: "We have sent an email with instructions" });
     } catch (error) {
       console.log(error);
     }
@@ -124,9 +124,9 @@ const comprobarToken = async (req, res) => {
 
     const tokenValido = await Usuario.findOne({ token });
     if (tokenValido) {
-        res.json({ msg: "Token válido y el Usuario existe" });
+        res.json({ msg: "Valid token and User exists" });
     }else {
-        const error = new Error("Token no válido");
+        const error = new Error("Invalid Token");
         return res.status(404).json({ msg: error.message });
     }
 }
@@ -140,9 +140,9 @@ const nuevoPassword = async (req, res) => {
         usuario.password = password  // reseteamos el password
         usuario.token = ''
         await usuario.save()
-        res.json({ msg: "Password Modificado Correctamente"})
+        res.json({ msg: "Password Modified Correctly"})
     }else {
-        const error = new Error("No se pudo Actualizar el Password");
+        const error = new Error("Could not update password");
         return res.status(404).json({ msg: error.message });
     }
 }
