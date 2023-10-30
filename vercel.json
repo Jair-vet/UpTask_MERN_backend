@@ -15,14 +15,11 @@
         {
           "source": "/(.*)",
           "headers": [
-            { "key": "Access-Control-Allow-Origin", "value": "*" }
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            }
           ]
-        },
-        {
-          "source": "/up-task-mern-frontend-sigma.vercel/(.*)",
-          "headers": [
-            { "key": "Access-Control-Allow-Origin", "value": "*" }
-          ]
-        } 
-    ]
+        }
+      ]
 }
