@@ -15,7 +15,7 @@ dotenv.config()
 conectarDB()
 
 // Configurar CORS
-const whiteList = [process.env.FRONTEND_URL]
+const whiteList = 'https://luminous-gnome-2e41b7.netlify.app'
 
 const corsOptions = {
     origin: function(origin, callback){
