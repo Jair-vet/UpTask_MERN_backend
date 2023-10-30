@@ -24,7 +24,8 @@ const corsOptions = {
         callback(null, true);
       } else {
         // No esta permitido
-        callback(new Error("Error de Cors"));
+        callback(null, true);
+        // callback(new Error("Error de Cors"));
       }
     },
 };
