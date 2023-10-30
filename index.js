@@ -15,7 +15,8 @@ dotenv.config()
 conectarDB()
 
 // Configurar CORS
-const whitelist = [process.env.FRONTEND_URL]
+// const whitelist = [process.env.FRONTEND_URL]
+const whitelist = ['https://up-task-mern-frontend-m7px3yyg7-jair-vet.vercel.app/']
 
 const corsOptions = {
     origin: function (origin, callback) {
