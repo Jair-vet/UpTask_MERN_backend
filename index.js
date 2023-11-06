@@ -35,9 +35,9 @@ app.use(cors(corsOptions))
 
 
 // Routing
-app.use('/api/usuarios', usuarioRoutes)
-app.use('/api/proyectos', proyectoRoutes)
-app.use('/api/tareas', tareaRoutes)
+app.use('/usuarios', usuarioRoutes)
+app.use('/proyectos', proyectoRoutes)
+app.use('/tareas', tareaRoutes)
 
 const PORT = process.env.PORT || 4000
 
