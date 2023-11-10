@@ -41,7 +41,7 @@ app.use('/api/tareas', tareaRoutes)
 
 const PORT = process.env.PORT || 4000
 
-const servidor = app.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`El Servidor esta corriendo en el Puerto ${PORT}`);
 })
 
